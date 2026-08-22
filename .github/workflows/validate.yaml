@@ -1,0 +1,60 @@
+name: Validate GitOps configuration
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: config-repo-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  helm:
+    name: Validate Helm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out configuration
+        uses: actions/checkout@v5
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.21.4
+
+      - name: Lint Cluster 1 dev
+        run: helm lint apps/deployboard -f environments/cluster1-dev/values.yaml
+
+      - name: Render Cluster 1 dev
+        run: >-
+          helm template deployboard apps/deployboard
+          --namespace deployboard-dev
+          -f environments/cluster1-dev/values.yaml
+          > /tmp/deployboard-cluster1-dev.yaml
+
+  terraform:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/rds-foundation
+    steps:
+      - name: Check out configuration
+        uses: actions/checkout@v5
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.9
+
+      - name: Check formatting
+        run: terraform fmt -check -recursive
+
+      - name: Initialize providers
+        run: terraform init -backend=false -input=false
+
+      - name: Validate configuration
+        run: terraform validate

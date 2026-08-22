@@ -1,0 +1,16 @@
+environment: dev
+clusterName: cluster1
+
+images:
+  backend:
+    repository: 073771271034.dkr.ecr.ap-south-1.amazonaws.com/deployboard-backend
+    tag: replace-with-git-sha
+  frontend:
+    repository: 073771271034.dkr.ecr.ap-south-1.amazonaws.com/deployboard-frontend
+    tag: replace-with-git-sha
+
+database:
+  name: deployboard_dev
+  host: deployboard-dev-postgres.cpoa0cqk2345.ap-south-1.rds.amazonaws.com
+  port: 5432
+  remoteSecretKey: arn:aws:secretsmanager:ap-south-1:073771271034:secret:rds!db-383de0ec-5a68-4bd4-9fc0-a12cccdc7495-FmLSdM

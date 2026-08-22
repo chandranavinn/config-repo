@@ -1,0 +1,5 @@
+aws_region        = "ap-south-1"
+project_name      = "deployboard"
+environment       = "dev"
+db_instance_class = "db.t4g.micro"
+deletion_protection = false

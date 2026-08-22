@@ -1,0 +1,51 @@
+nameOverride: ""
+fullnameOverride: ""
+
+environment: dev
+clusterName: cluster1
+
+images:
+  backend:
+    repository: deployboard-backend
+    tag: replace-with-git-sha
+    pullPolicy: IfNotPresent
+  frontend:
+    repository: deployboard-frontend
+    tag: replace-with-git-sha
+    pullPolicy: IfNotPresent
+
+database:
+  name: deployboard_dev
+  host: ""
+  port: 5432
+  secretName: deployboard-database
+  remoteSecretKey: ""
+  refreshInterval: 1h
+  secretStore:
+    name: aws-secrets-manager
+    kind: ClusterSecretStore
+
+backend:
+  replicas: 2
+  service:
+    port: 8000
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+frontend:
+  replicas: 2
+  service:
+    type: ClusterIP
+    port: 80
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
