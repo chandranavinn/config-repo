@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: deployboard
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/chandranavinn/config-repo.git
+    targetRevision: app-cluster1-deploy
+    path: app-cluster1
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: deployboard-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  revisionHistoryLimit: 5
