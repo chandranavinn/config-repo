@@ -73,3 +73,33 @@ variable "ssm_bridge_instance_type" {
   type        = string
   default     = "t3.micro"
 }
+
+variable "eks_version" {
+  description = "Kubernetes version for the managed EKS cluster."
+  type        = string
+  default     = "1.33"
+}
+
+variable "eks_node_instance_type" {
+  description = "EC2 instance type for the managed EKS node group."
+  type        = string
+  default     = "t3.medium"
+}
+
+variable "eks_node_desired_size" {
+  description = "Desired number of EKS worker nodes."
+  type        = number
+  default     = 2
+}
+
+variable "eks_node_min_size" {
+  description = "Minimum number of EKS worker nodes."
+  type        = number
+  default     = 2
+}
+
+variable "eks_node_max_size" {
+  description = "Maximum number of EKS worker nodes."
+  type        = number
+  default     = 3
+}

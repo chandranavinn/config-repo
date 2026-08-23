@@ -29,7 +29,7 @@ resource "aws_instance" "ssm_bridge" {
   ami                         = data.aws_ssm_parameter.amazon_linux_2023.value
   instance_type               = var.ssm_bridge_instance_type
   subnet_id                   = aws_subnet.public[0].id
-  associate_public_ip_address = true
+  associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.ssm_bridge.id]
   iam_instance_profile        = aws_iam_instance_profile.ssm_bridge.name
 
