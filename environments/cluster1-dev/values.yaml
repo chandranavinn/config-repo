@@ -1,14 +1,12 @@
 environment: dev
 clusterName: cluster1
-
 images:
   backend:
     repository: 073771271034.dkr.ecr.ap-south-1.amazonaws.com/deployboard-backend
-    tag: replace-with-git-sha
+    tag: aae079a7de8f62603165fe8d711235614c5b818a
   frontend:
     repository: 073771271034.dkr.ecr.ap-south-1.amazonaws.com/deployboard-frontend
-    tag: replace-with-git-sha
-
+    tag: aae079a7de8f62603165fe8d711235614c5b818a
 database:
   name: deployboard_dev
   host: deployboard-dev-postgres.cpoa0cqk2345.ap-south-1.rds.amazonaws.com
