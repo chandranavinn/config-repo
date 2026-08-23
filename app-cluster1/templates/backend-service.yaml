@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "app-cluster1-deploy.fullname" . }}-backend
+  labels:
+    {{- include "app-cluster1-deploy.labels" . | nindent 4 }}
+    app.kubernetes.io/component: backend
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: {{ .Values.backend.servicePort }}
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- include "app-cluster1-deploy.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: backend

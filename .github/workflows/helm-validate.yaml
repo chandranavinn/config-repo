@@ -1,0 +1,38 @@
+name: Validate Helm chart
+
+on:
+  push:
+    branches: [app-cluster1-deploy]
+    paths:
+      - app-cluster1/**
+      - .github/workflows/helm-validate.yaml
+  pull_request:
+    paths:
+      - app-cluster1/**
+      - .github/workflows/helm-validate.yaml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  helm:
+    name: Lint and render Helm chart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.21.4
+
+      - name: Lint chart
+        run: helm lint app-cluster1
+
+      - name: Render chart
+        run: >-
+          helm template deployboard app-cluster1
+          --namespace deployboard-dev
+          > /tmp/deployboard-cluster1-dev.yaml
